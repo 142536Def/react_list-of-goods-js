@@ -19,7 +19,7 @@ export const goodsFromServer = [
 function sortGoods(goods, sortType, isReverse) {
   const sortedGoods = [...goods];
 
-  if (sortType === 'alphabet') {
+  if (sortType === 'alphabetical') {
     sortedGoods.sort((a, b) => a.localeCompare(b));
   }
 
@@ -39,7 +39,8 @@ export const App = () => {
   const [isReverse, setIsReverse] = useState(false);
 
   const visibleGoods = sortGoods(goodsFromServer, sortType, isReverse);
-  const isOrderChanged = sortType !== '' || isReverse;
+
+  const isOrderChange = sortType !== '' || isReverse;
 
   function handleReset() {
     setSortType('');
@@ -50,10 +51,10 @@ export const App = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortType('alphabet')}
+          onClick={() => setSortType('alphabetical')}
           type="button"
           className={classNames('button', 'is-info', {
-            'is-light': sortType !== 'alphabet',
+            'is-light': sortType !== 'alphabetical',
           })}
         >
           Sort alphabetically
@@ -79,11 +80,13 @@ export const App = () => {
           Reverse
         </button>
 
-        {isOrderChanged && (
+        {isOrderChange && (
           <button
             onClick={handleReset}
             type="button"
-            className="button is-danger"
+            className={classNames('button', 'is-danger', {
+              'is-light': !isOrderChange,
+            })}
           >
             Reset
           </button>
